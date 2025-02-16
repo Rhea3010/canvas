@@ -224,12 +224,25 @@
             // Save canvas as image
             const saveCanvasAsImage = () => {
                 const canvas = canvasRef.current;
-                const image = canvas.toDataURL("image/jpg");
+            
+                const tempCanvas = document.createElement("canvas");
+                const tempCtx = tempCanvas.getContext("2d");
+
+                tempCanvas.width = canvas.width;
+                tempCanvas.height = canvas.height;
+            
+                tempCtx.fillStyle = "#FFFFFF";
+                tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+                tempCtx.drawImage(canvas, 0, 0);
+            
+                // Convert to JPG
+                const image = tempCanvas.toDataURL("image/jpeg"); 
                 const link = document.createElement("a");
                 link.href = image;
                 link.download = "canvas_image.jpg";
                 link.click();
             };
+            
 
         // Handle mouse down event
         const handleMouseDown = (e) => {
